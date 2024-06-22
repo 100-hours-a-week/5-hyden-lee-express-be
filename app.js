@@ -5,6 +5,10 @@ const app = express();
 // 웹 서버가 사용할 포트 번호를 정의합니다.
 const port = 8080;
 
+// environment load
+import "./utils/env.js"
+// console.log(process.env.SESSION_SECRET)
+
 // cors policy 설정
 import cors from 'cors'
 app.use(cors());
