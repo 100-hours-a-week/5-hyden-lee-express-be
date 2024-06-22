@@ -11,6 +11,29 @@ const upload = multer({
 const uploadMiddleware = upload.single("profileImg");
 
 app.use(uploadMiddleware);
+
+//cookie set on
+// const cookieParser = require('cookie-parser');
+import cookieParser from "cookie-parser";
+app.use(cookieParser())
+
+// session middleware set on
+// const session = require('express-session');
+import session from 'express-session';
+import MemoryStore from 'memorystore';
+const memoryStore = MemoryStore(session);
+app.use(
+    session({
+        // secret: "secret key",
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: true,
+        store: new memoryStore({checkPeriod:86400000}),
+        cookie: { maxAge: 86400000 },
+    })
+);
+// console.log(process.env.SESSION_SECRET);
+
 const router = express.Router();
 
 router.post('/login',memberController.validateMember);
