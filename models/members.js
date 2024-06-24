@@ -12,7 +12,7 @@ function validateLogin(email, password) {
         }
     }
 
-    return false;
+    return 0;
 
 }
 

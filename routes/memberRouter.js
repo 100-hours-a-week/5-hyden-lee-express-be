@@ -15,7 +15,7 @@ app.use(uploadMiddleware);
 //cookie set on
 // const cookieParser = require('cookie-parser');
 import cookieParser from "cookie-parser";
-app.use(cookieParser())
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // session middleware set on
 // const session = require('express-session');
@@ -25,7 +25,7 @@ const memoryStore = MemoryStore(session);
 app.use(
     session({
         // secret: "secret key",
-        secret: process.env.SESSION_SECRET,
+        secret: process.env.COOKIE_SECRET,
         resave: false,
         saveUninitialized: true,
         store: new memoryStore({checkPeriod:86400000}),
