@@ -7,7 +7,31 @@ const port = 8080;
 
 // environment load
 import "./utils/env.js"
-// console.log(process.env.SESSION_SECRET)
+
+
+//cookie set on
+// const cookieParser = require('cookie-parser');
+import cookieParser from "cookie-parser";
+const Cookie_Secret = process.env.COOKIE_SECRET ? process.env.COOKIE_SECRET :"SECRET_FOR_COOKIE_OR_SESSION";
+app.use(cookieParser(Cookie_Secret));
+
+// session middleware set on
+// const session = require('express-session');
+import session from 'express-session';
+import MemoryStore from 'memorystore';
+const memoryStore = MemoryStore(session);
+app.use(
+    session({
+        // secret: "secret key",
+        secret: process.env.COOKIE_SECRET,
+        resave: false,
+        saveUninitialized: true,
+        store: new memoryStore({checkPeriod:86400000}),
+        cookie: { maxAge: 86400000 },
+    })
+);
+
+
 
 // cors policy 설정
 import cors from 'cors'

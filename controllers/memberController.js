@@ -2,11 +2,17 @@ import model from '../models/members.js';
 import responseMessages from '../utils/HttpMessage.js';
 
 function validateMember(req, res) {
-    const isValid = model.validateLogin(req.body.email, req.body.password);
+    const uuid = model.validateLogin(req.body.email, req.body.password);
+    // !!uuid ===  uuid ? true : false, it changes any type to boolean
+    const result = !!uuid
     const validateMemberResponse = {
-        result : isValid
+        result,
     }
-    if (isValid){
+    if (result){
+        req.session.user = {
+            uuid,
+            authorized : true,
+        }
         res.status(200).send(responseMessages.success(200,"로그인요청성공",validateMemberResponse));
     }
     else {
