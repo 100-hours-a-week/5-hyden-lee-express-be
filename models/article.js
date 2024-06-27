@@ -50,6 +50,7 @@ function createArticle(newArticle){
         created_at: new Date().toISOString(),
         article_content: newArticle.article_content,
         author: author_nickname,
+        author_id: newArticle.authorId,
         author_profile : author_profile,
         article_image: newArticle?.article_image ?? ""
     }
@@ -101,6 +102,15 @@ function getComments(article_id){
     const commentListData = JSON.parse(fs.readFileSync(__dirname + '/models/comments.json', 'utf8'));
     return commentListData.filter(comment => parseInt(comment.article_id) === parseInt(article_id))
 }
+function getComment(comment_id){
+    const commentListData = JSON.parse(fs.readFileSync(__dirname + '/models/comments.json', 'utf8'));
+    for (let comment of commentListData) {
+        if (parseInt(comment.comment_id) === parseInt(comment_id)) {
+            return comment
+        }
+    }
+    return null
+}
 
 function creatComment(newComment){
     const commentListData = JSON.parse(fs.readFileSync(__dirname + '/models/comments.json', 'utf8'));
@@ -119,6 +129,7 @@ function creatComment(newComment){
         article_id: parseInt(newComment.article_id),
         active : true,
         commenterName : commentor_nickname,
+        commenter_id: newComment.authorId,
         commenter_profile_image : commentor_profile,
         content : newComment.content,
         created_at: new Date().toISOString(),
@@ -171,6 +182,7 @@ export default {
     getArticleList,
     getArticle,
     getComments,
+    getComment,
     creatComment,
     updateComment,
     deleteComment,

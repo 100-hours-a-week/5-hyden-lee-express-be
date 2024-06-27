@@ -21,8 +21,7 @@ const authorizeArticleMiddleware = async (req, res, next) => {
 
 const authorizeCommentMiddleware = async (req, res, next) => {
     const comment_id = req.params.comment_id;
-    const {commenter_id} = await article.getComments(comment_id);
-    console.log(req.session.user);
+    const {commenter_id} = await article.getComment(comment_id);
     if (commenter_id === req.session.user.uuid) {
         next();
     }else {

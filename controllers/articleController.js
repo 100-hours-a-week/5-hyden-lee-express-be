@@ -25,7 +25,7 @@ function createArticle(req,res){
         title: req.body.article_title,
         article_content: req.body.article_content,
         article_image : req.file.filename,
-        authorId: req.body.uuid
+        authorId: req.session.user.uuid
     }
     model.createArticle(newArticle)
     res.status(201).send(responseMessages.success(201,"게시글생성성공",null));
@@ -63,7 +63,7 @@ function getComments(req,res){
 function createComment(req,res){
     const newComment = {
         article_id: req.params.article_id,
-        authorId: req.body.authorId,
+        authorId: req.session.user.uuid,
         content : req.body.content,
     }
     model.creatComment(newComment)
