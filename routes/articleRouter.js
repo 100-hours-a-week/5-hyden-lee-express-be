@@ -15,9 +15,9 @@ app.use(uploadMiddleware);
 const router = express.Router();
 
 router.post("/create",upload.single("article_image"), AuthMiddleware.isAuthenticated, articleController.createArticle);
-router.post("/update/:article_id",upload.single("article_image"), AuthMiddleware.isAuthenticated, articleController.updateArticle);
-router.get("/delete/:article_id", AuthMiddleware.isAuthenticated, articleController.deleteArticle);
-router.post("/comment/:article_id/create", AuthMiddleware.isAuthenticated, articleController.createComment);
+router.post("/update/:article_id",upload.single("article_image"), AuthMiddleware.isAuthenticated, AuthMiddleware.isArticleOwned, articleController.updateArticle);
+router.get("/delete/:article_id", AuthMiddleware.isAuthenticated, AuthMiddleware.isArticleOwned, articleController.deleteArticle);
+// router.post("/comment/:article_id/create", AuthMiddleware.isAuthenticated, articleController.createComment);
 router.get("/:article_id", AuthMiddleware.isAuthenticated, articleController.getArticle)
 router.get("/", AuthMiddleware.isAuthenticated, articleController.getArticleList);
 export default router;

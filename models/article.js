@@ -173,5 +173,5 @@ export default {
     getComments,
     creatComment,
     updateComment,
-    deleteComment
+    deleteComment,
 }
