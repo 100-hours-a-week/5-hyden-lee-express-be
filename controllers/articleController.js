@@ -2,6 +2,8 @@ import model from '../models/article.js';
 import responseMessages from '../utils/HttpMessage.js';
 
 function getArticleList(req,res){
+    console.log('세션확인',req.session?.user)
+
     const pageNo = req.query.pageNo ?? 1
     const articleList = model.getArticleList(pageNo);
     res.status(200).send(responseMessages.success(200,`${pageNo}페이지게시글목록조회성공`,articleList));
@@ -82,6 +84,7 @@ function deleteComment(req,res) {
     model.deleteComment(commentId)
     res.status(204).send(responseMessages.success(204,"댓글삭제성공",null));
 }
+
 
 export default {
     getArticleList,

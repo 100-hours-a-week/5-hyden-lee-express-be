@@ -27,7 +27,10 @@ app.use(
         resave: false,
         saveUninitialized: true,
         store: new memoryStore({checkPeriod:86400000}),
-        cookie: { maxAge: 86400000 },
+        cookie: {
+            maxAge: 86400000,
+            httpOnly: true,
+        },
     })
 );
 
@@ -35,8 +38,10 @@ app.use(
 
 // cors policy 설정
 import cors from 'cors'
-app.use(cors());
-
+app.use(cors({
+    origin: 'http://localhost:3000', // 프론트엔드 도메인
+    credentials: true, // 쿠키 허용
+}));
 // 작성된 컨트롤러 모듈 호출
 import memberRouter from "./routes/memberRouter.js";
 import articleRouter from "./routes/articleRouter.js";

@@ -13,10 +13,16 @@ function validateMember(req, res) {
             uuid,
             authorized : true,
         }
-        res.status(200).send(responseMessages.success(200,"로그인요청성공",validateMemberResponse));
-    }
-    else {
-        res.status(401).send(responseMessages.failure(401,"잘못된계정정보",validateMemberResponse));
+        req.session.save((err) => {
+            if (err) {
+                console.error('Session save error:', err);
+                return res.status(500).send(responseMessages.failure(500, "세션 저장 오류", validateMemberResponse));
+            }
+            console.log('세션 저장:', req.session);
+            res.status(200).send(responseMessages.success(200, "로그인 요청 성공", validateMemberResponse));
+        });
+    } else {
+        res.status(401).send(responseMessages.failure(401, "잘못된 계정 정보", validateMemberResponse));
     }
 }
 

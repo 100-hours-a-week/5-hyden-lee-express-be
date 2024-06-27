@@ -1,5 +1,6 @@
 import express from 'express';
 import articleController from '../controllers/articleController.js';
+import AuthMiddleware from '../utils/AuthMiddleware.js';
 
 const app = express()
 
@@ -13,10 +14,10 @@ const uploadMiddleware = upload.single("profileImg");
 app.use(uploadMiddleware);
 const router = express.Router();
 
-router.post("/create",upload.single("article_image"),articleController.createArticle);
-router.post("/update/:article_id",upload.single("article_image"),articleController.updateArticle);
-router.get("/delete/:article_id",articleController.deleteArticle);
-router.post("/comment/:article_id/create",articleController.createComment);
-router.get("/:article_id", articleController.getArticle)
-router.get("/", articleController.getArticleList)
+router.post("/create",upload.single("article_image"), AuthMiddleware.isAuthenticated, articleController.createArticle);
+router.post("/update/:article_id",upload.single("article_image"), AuthMiddleware.isAuthenticated, articleController.updateArticle);
+router.get("/delete/:article_id", AuthMiddleware.isAuthenticated, articleController.deleteArticle);
+router.post("/comment/:article_id/create", AuthMiddleware.isAuthenticated, articleController.createComment);
+router.get("/:article_id", AuthMiddleware.isAuthenticated, articleController.getArticle)
+router.get("/", AuthMiddleware.isAuthenticated, articleController.getArticleList);
 export default router;
